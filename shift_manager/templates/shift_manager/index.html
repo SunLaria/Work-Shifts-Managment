@@ -15,17 +15,21 @@
     </tr>
     <tr>
         <th>Morning<br>06:00-15:00</th>
-        <form action="/save" method="post">
+        <form action="/save/" method="post">
+            {% csrf_token %}
             {% for week_day in "0 1 2 3 4 5 6"|list_split %}
             <td>
+                {% with cell_date=week_dates|list_index_date:week_day %}
                 <select id="Worker_row1" name="Worker">
-                    <option selected value="empty"></option>
+                    {% filter_worker_name cell_date "mo" %}
+                    <option value="empty">------</option>
                     {% for worker in workers_list %}
                     <option value="{{ worker.Worker_ID }}"> {{ worker.Full_Name }} </option>
                     {% endfor %}
-                    <input type="text" name="Shift" id="" value="ni" hidden>
-                    <input type="date" name="Date" id="" value="{{ week_dates|list_index_date:week_day }}" hidden>
+                    <input type="text" name="Shift" id="" value="mo" hidden>
+                    <input type="date" name="Date" id="" value="{{ cell_date }}" hidden>
                 </select>
+                {% endwith %}
             </td>
             {% endfor %}
             <td><input type="submit" value="&#x2713">
@@ -34,17 +38,21 @@
     </tr>
     <tr>
         <th>Afternoon<br>15:00-20:00</th>
-        <form action="/save" method="post">
+        <form action="/save/" method="post">
+            {% csrf_token %}
             {% for week_day in "0 1 2 3 4 5 6"|list_split %}
             <td>
+                {% with cell_date=week_dates|list_index_date:week_day %}
                 <select id="Worker_row2" name="Worker">
-                    <option selected value="empty"></option>
+                    {% filter_worker_name cell_date "af" %}
+                    <option value="empty">------</option>
                     {% for worker in workers_list %}
                     <option value="{{ worker.Worker_ID }}"> {{ worker.Full_Name }} </option>
                     {% endfor %}
-                    <input type="text" name="Shift" id="" value="ni" hidden>
-                    <input type="date" name="Date" id="" value="{{ week_dates|list_index_date:week_day }}" hidden>
+                    <input type="text" name="Shift" id="" value="af" hidden>
+                    <input type="date" name="Date" id="" value="{{ cell_date }}" hidden>
                 </select>
+                {% endwith %}
             </td>
             {% endfor %}
             <td><input type="submit" value="&#x2713">
@@ -53,17 +61,21 @@
     </tr>
     <tr>
         <th>Night<br>20:00-06:00</th>
-        <form action="https://httpbun.com/post" method="post">
+        <form action="/save/" method="post">
+            {% csrf_token %}
             {% for week_day in "0 1 2 3 4 5 6"|list_split %}
             <td>
+                {% with cell_date=week_dates|list_index_date:week_day %}
                 <select id="Worker_row3" name="Worker">
-                    <option selected value="empty"></option>
+                    {% filter_worker_name cell_date "ni"|safe%}
+                    <option value="empty">------</option>
                     {% for worker in workers_list %}
                     <option value="{{ worker.Worker_ID }}"> {{ worker.Full_Name }} </option>
                     {% endfor %}
                     <input type="text" name="Shift" id="" value="ni" hidden>
-                    <input type="date" name="Date" id="" value="{{ week_dates|list_index_date:week_day }}" hidden>
+                    <input type="date" name="Date" id="" value="{{ cell_date }}" hidden>
                 </select>
+                {% endwith %}
             </td>
             {% endfor %}
             <td><input type="submit" value="&#x2713">
