@@ -1,0 +1,51 @@
+#content{
+    margin: 50px;
+}
+#nav{
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    justify-content: center;
+    margin-bottom: 10vh;
+}
+#data{
+    text-align: center;
+}
+table{
+    display: inline-block;
+    text-align: center;
+    
+}
+td{
+    padding: 15px;
+    background-color: #eeeeee;
+}
+th{
+    padding: 15px;
+    background-color: #bbbbbbbb;
+    font-size: large;
+}
+#back_button, #front_button{
+    padding: 6px;
+    margin-top: 10px;
+    cursor: pointer;
+    font-size: medium;
+}
+#action-buttons-div{
+    position: absolute;
+    left: 74vw;
+    bottom: 31.8vh;
+}
+#action-button{
+    cursor: pointer;
+    font-size: medium;
+}
+
+input{
+    
+    font-size: larger;
+}
+select{
+    font-size:medium;
+}

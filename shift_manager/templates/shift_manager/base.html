@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'shift_manager/style.css' %}">
+</head>
+<body>
+    <div id="content">
+        <div id="nav">
+            <div><a href="{% url 'home' %}">Home</a></div>
+            <div><a href="{% url 'workers' %}">Workers</a></div>
+        </div>
+        <div id="data">
+        {% block content %}
+        
+        {% endblock %}
+        </div>
+    </div>
+</body>
+</html>

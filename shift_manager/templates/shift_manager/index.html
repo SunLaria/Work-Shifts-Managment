@@ -1,0 +1,103 @@
+{% extends "shift_manager/base.html" %}
+{% block content %}
+<table>
+    <tr>
+        <th></th>
+        {% load filters %}
+
+        {% for week_day in "0 1 2 3 4 5 6"|list_split %}
+        <th>{{ 'Sunday Monday Tuesday Wednesday Thursday Friday Saturday'|list_split|list_index:week_day }}
+            <br>
+            {{ week_dates|list_index:week_day }}
+        </th>
+    
+        {% endfor %}
+    </tr>
+    <tr>
+        <th>Morning<br>06:00-15:00</th>
+        <form action="/save" method="post">
+            {% for week_day in "0 1 2 3 4 5 6"|list_split %}
+            <td>
+                <select id="Worker_row1" name="Worker">
+                    <option selected value="empty"></option>
+                    {% for worker in workers_list %}
+                    <option value="{{ worker.Worker_ID }}"> {{ worker.Full_Name }} </option>
+                    {% endfor %}
+                    <input type="text" name="Shift" id="" value="ni" hidden>
+                    <input type="date" name="Date" id="" value="{{ week_dates|list_index_date:week_day }}" hidden>
+                </select>
+            </td>
+            {% endfor %}
+            <td><input type="submit" value="&#x2713">
+                <input type="button" value="&#x1f5d1" id="clear-row" onclick=clear_row(1)></td>
+        </form>
+    </tr>
+    <tr>
+        <th>Afternoon<br>15:00-20:00</th>
+        <form action="/save" method="post">
+            {% for week_day in "0 1 2 3 4 5 6"|list_split %}
+            <td>
+                <select id="Worker_row2" name="Worker">
+                    <option selected value="empty"></option>
+                    {% for worker in workers_list %}
+                    <option value="{{ worker.Worker_ID }}"> {{ worker.Full_Name }} </option>
+                    {% endfor %}
+                    <input type="text" name="Shift" id="" value="ni" hidden>
+                    <input type="date" name="Date" id="" value="{{ week_dates|list_index_date:week_day }}" hidden>
+                </select>
+            </td>
+            {% endfor %}
+            <td><input type="submit" value="&#x2713">
+                <input type="button" value="&#x1f5d1" id="clear-row" onclick=clear_row(2)></td>
+        </form>
+    </tr>
+    <tr>
+        <th>Night<br>20:00-06:00</th>
+        <form action="https://httpbun.com/post" method="post">
+            {% for week_day in "0 1 2 3 4 5 6"|list_split %}
+            <td>
+                <select id="Worker_row3" name="Worker">
+                    <option selected value="empty"></option>
+                    {% for worker in workers_list %}
+                    <option value="{{ worker.Worker_ID }}"> {{ worker.Full_Name }} </option>
+                    {% endfor %}
+                    <input type="text" name="Shift" id="" value="ni" hidden>
+                    <input type="date" name="Date" id="" value="{{ week_dates|list_index_date:week_day }}" hidden>
+                </select>
+            </td>
+            {% endfor %}
+            <td><input type="submit" value="&#x2713">
+                <input type="button" value="&#x1f5d1" id="clear-row" onclick=clear_row(3)></td>
+        </form>
+    </tr>
+</table>
+<input type="text" hidden id="week_num" value="{{ week_num }}">
+<div id="calender_buttons">
+    <button id="back_button" onclick=button_control(week_num-1)><</button>
+    <button id="front_button" onclick=button_control(week_num+1)>></button>
+</div>
+<div id="action-buttons-div">
+<button onclick=clear_all() id="action-button">Clear All!</button>
+<button id="action-button">Save All!</button>
+</div>
+<script>
+    
+    let week_num = parseInt(document.getElementById("week_num").value)
+    function button_control(value){
+        return window.location.replace("/"+String(value));
+    }
+
+    function clear_row(i){
+        let row_selcet_list = document.querySelectorAll("#Worker_row"+i)
+        for (let x = 0; x < row_selcet_list.length; x++) {
+            row_selcet_list[x].selectedIndex = 0;
+        }
+    }
+    function clear_all(){
+        for (let x = 1; x < 4; x++) {
+            clear_row(x);
+        }
+    }
+
+</script>
+{% endblock %}
