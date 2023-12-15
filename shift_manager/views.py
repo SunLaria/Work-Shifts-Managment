@@ -17,8 +17,26 @@ def home(request,week_num=datetime.datetime.now().isocalendar()[1]-1):
 def save(request):
     if request.method=="POST":
         row_data_post = (list(zip(request.POST.getlist("Date"),request.POST.getlist("Shift"),request.POST.getlist("Worker"))))
-        [Shift.objects.create(Date=x,Shift=y,Worker=Worker.objects.get(Worker_ID=int(z))) for x,y,z in row_data_post if z != "empty"]
+        for data_cell in row_data_post:
+            if data_cell[2] != "empty":
+                try:
+                    temp_shift=[i for i in Shift.objects.filter(Date=data_cell[0],Shift=data_cell[1])][0]
+                    temp_shift.Worker=Worker.objects.get(Worker_ID=int(data_cell[2]))
+                    temp_shift.save()
+                except:
+                    Shift.objects.create(Date=data_cell[0],Shift=data_cell[1],Worker=Worker.objects.get(Worker_ID=int(data_cell[2])))
         return redirect("/")
+    else:
+        return redirect("/")
+
+def delete(request):
+    if request.method=="POST":
+        try:
+            row_data_post = (list(zip(request.POST.getlist("Date"),request.POST.getlist("Shift"),request.POST.getlist("Worker"))))
+            [[i.delete() for i in Shift.objects.filter(Date=x[0],Shift=x[1])] for x in row_data_post]
+            return redirect("/")
+        except:
+            return redirect("/")
     else:
         return redirect("/")
 

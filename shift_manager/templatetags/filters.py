@@ -25,7 +25,7 @@ def filter_worker_name(date,shift):
         result=f"<option selected value='{choice.Worker.Worker_ID}'>{choice.Worker.Full_Name}</option>"
         return mark_safe(result)
     except:
-        return TypeError
+        return ""
 
 
 

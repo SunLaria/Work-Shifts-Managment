@@ -15,7 +15,7 @@
     </tr>
     <tr>
         <th>Morning<br>06:00-15:00</th>
-        <form action="/save/" method="post">
+        <form action="/save/" method="post" id="form1">
             {% csrf_token %}
             {% for week_day in "0 1 2 3 4 5 6"|list_split %}
             <td>
@@ -33,12 +33,12 @@
             </td>
             {% endfor %}
             <td><input type="submit" value="&#x2713">
-                <input type="button" value="&#x1f5d1" id="clear-row" onclick=clear_row(1)></td>
+                <input type="submit" value="&#x1f5d1" formaction="/delete/" id="clear-row"></td>
         </form>
     </tr>
     <tr>
         <th>Afternoon<br>15:00-20:00</th>
-        <form action="/save/" method="post">
+        <form action="/save/" method="post" id="form2">
             {% csrf_token %}
             {% for week_day in "0 1 2 3 4 5 6"|list_split %}
             <td>
@@ -56,12 +56,12 @@
             </td>
             {% endfor %}
             <td><input type="submit" value="&#x2713">
-                <input type="button" value="&#x1f5d1" id="clear-row" onclick=clear_row(2)></td>
+                <input type="submit" value="&#x1f5d1" formaction="/delete/" id="clear-row"></td>
         </form>
     </tr>
     <tr>
         <th>Night<br>20:00-06:00</th>
-        <form action="/save/" method="post">
+        <form action="/save/" method="post" id="form3">
             {% csrf_token %}
             {% for week_day in "0 1 2 3 4 5 6"|list_split %}
             <td>
@@ -78,8 +78,8 @@
                 {% endwith %}
             </td>
             {% endfor %}
-            <td><input type="submit" value="&#x2713">
-                <input type="button" value="&#x1f5d1" id="clear-row" onclick=clear_row(3)></td>
+            <td><input type="submit"  value="&#x2713">
+                <input type="submit" value="&#x1f5d1" formaction="/delete/" id="clear-row"></td>
         </form>
     </tr>
 </table>
@@ -89,8 +89,8 @@
     <button id="front_button" onclick=button_control(week_num+1)>></button>
 </div>
 <div id="action-buttons-div">
-<button onclick=clear_all() id="action-button">Clear All!</button>
-<button id="action-button">Save All!</button>
+<button style="cursor: pointer; font-size: medium;"  id="clear_all">Clear All!</button>
+<button style="cursor: pointer; font-size: medium;" id="save_all">Save All!</button>
 </div>
 <script>
     
@@ -99,17 +99,22 @@
         return window.location.replace("/"+String(value));
     }
 
-    function clear_row(i){
-        let row_selcet_list = document.querySelectorAll("#Worker_row"+i)
-        for (let x = 0; x < row_selcet_list.length; x++) {
-            row_selcet_list[x].selectedIndex = 0;
-        }
-    }
-    function clear_all(){
-        for (let x = 1; x < 4; x++) {
-            clear_row(x);
-        }
-    }
+    
+    
+    $("#save_all").click(function(){
+            $.post("/save/",$('form').serialize());
+            setTimeout(function(){window.location.reload();},1000)
+    });
+
+
+    $("#clear_all").click(function(){
+            if (confirm("Are you sure?") == true){
+                $.post("/delete/",$('form').serialize());
+                setTimeout(function(){window.location.reload();},1000)
+            };
+            
+    });
+
 
 </script>
 {% endblock %}
