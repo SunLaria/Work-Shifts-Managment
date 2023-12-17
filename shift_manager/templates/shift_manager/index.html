@@ -15,7 +15,7 @@
     </tr>
     <tr>
         <th>Morning<br>06:00-15:00</th>
-        <form action="/save/" method="post" id="form1">
+        <form action="{% url 'save' %}" method="post" id="form1">
             {% csrf_token %}
             {% for week_day in "0 1 2 3 4 5 6"|list_split %}
             <td>
@@ -33,12 +33,12 @@
             </td>
             {% endfor %}
             <td><input type="submit" value="&#x2713">
-                <input type="submit" value="&#x1f5d1" formaction="/delete/" id="clear-row"></td>
+                <input type="submit" value="&#x1f5d1" formaction="{% url 'delete' %}" id="clear-row"></td>
         </form>
     </tr>
     <tr>
         <th>Afternoon<br>15:00-20:00</th>
-        <form action="/save/" method="post" id="form2">
+        <form action="{% url 'save' %}" method="post" id="form2">
             {% csrf_token %}
             {% for week_day in "0 1 2 3 4 5 6"|list_split %}
             <td>
@@ -56,12 +56,12 @@
             </td>
             {% endfor %}
             <td><input type="submit" value="&#x2713">
-                <input type="submit" value="&#x1f5d1" formaction="/delete/" id="clear-row"></td>
+                <input type="submit" value="&#x1f5d1" formaction="{% url 'delete' %}" id="clear-row"></td>
         </form>
     </tr>
     <tr>
         <th>Night<br>20:00-06:00</th>
-        <form action="/save/" method="post" id="form3">
+        <form action="{% url 'save' %}" method="post" id="form3">
             {% csrf_token %}
             {% for week_day in "0 1 2 3 4 5 6"|list_split %}
             <td>
@@ -79,7 +79,7 @@
             </td>
             {% endfor %}
             <td><input type="submit"  value="&#x2713">
-                <input type="submit" value="&#x1f5d1" formaction="/delete/" id="clear-row"></td>
+                <input type="submit" value="&#x1f5d1" formaction="{% url 'delete' %}" id="clear-row"></td>
         </form>
     </tr>
 </table>
@@ -102,14 +102,14 @@
     
     
     $("#save_all").click(function(){
-            $.post("/save/",$('form').serialize());
+            $.post("{% url 'save' %}",$('form').serialize());
             setTimeout(function(){window.location.reload();},1000)
     });
 
 
     $("#clear_all").click(function(){
             if (confirm("Are you sure?") == true){
-                $.post("/delete/",$('form').serialize());
+                $.post("{% url 'delete' %}",$('form').serialize());
                 setTimeout(function(){window.location.reload();},1000)
             };
             

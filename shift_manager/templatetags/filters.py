@@ -11,8 +11,9 @@ def list_index(indexable, i):
 
 @register.filter
 def list_index_date(indexable, i):
-    date_result=[int(x) for x in indexable[int(i)].split("-")][::-1]
-    return date(date_result[0],date_result[1],date_result[2]).strftime('%Y-%m-%d')
+    # date_result=[int(x) for x in indexable[int(i)].split("-")][::-1]
+    # return date(date_result[0],date_result[1],date_result[2]).strftime('%Y-%m-%d')
+    return "-".join(indexable[int(i)].split("-")[::-1])
 
 @register.filter
 def list_split(value):
