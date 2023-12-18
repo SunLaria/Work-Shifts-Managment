@@ -6,9 +6,10 @@ from shift_manager.models import Worker,Shift
 
 
 def home(request,week_num=datetime.datetime.now().isocalendar()[1]-1):
+    today = datetime.date.today()
+    startdate = time.asctime(time.strptime(f'{today.year} %d 0' % week_num, '%Y %W %w')) 
+    startdate = datetime.datetime.strptime(startdate, '%a %b %d %H:%M:%S %Y')
     
-    startdate = time.asctime(time.strptime('2023 %d 0' % week_num, '%Y %W %w')) 
-    startdate = datetime.datetime.strptime(startdate, '%a %b %d %H:%M:%S %Y') 
     dates = [startdate.strftime('%d-%m-%Y')] 
     for i in range(1, 7): 
         day = startdate + datetime.timedelta(days=i)
@@ -25,7 +26,6 @@ def save(request):
         for data_cell in row_data_post:
             try:
                 temp_shift=Shift.objects.get(Date=data_cell[0],Shift=data_cell[1])
-
                 if data_cell[2]!='empty':
                     temp_shift.Worker=Worker.objects.get(Worker_ID=int(data_cell[2]))
                     temp_shift.clean_fields()
@@ -51,4 +51,35 @@ def delete(request):
         return redirect("/")
 
 def workers(request):
-    return render(request, "shift_manager/worker.html")
+    return render(request, "shift_manager/worker.html", {"workers":[i for i in Worker.objects.all()]})
+
+
+def save_worker(request):
+    if request.method=="POST":
+        try:
+            worker=Worker.objects.get(Worker_ID=request.POST["worker_id"])
+            worker.Full_Name=request.POST["full_name"]
+            worker.Work_Days=request.POST["work_days"]
+            worker.clean_fields()
+            worker.save()
+        except:
+            worker=Worker(Worker_ID=request.POST["worker_id"],Full_Name=request.POST["full_name"],Work_Days=request.POST["work_days"])
+            try:
+                worker.clean_fields()
+                worker.save()
+            except:
+                pass
+            
+        return redirect("workers")
+    else:
+        return redirect("workers")
+            
+
+
+def remove_worker(reuqest,worker_id):
+    try:
+        worker=Worker.objects.get(Worker_ID=worker_id)
+        worker.delete()
+        return redirect("workers")
+    except:
+        return redirect("workers")

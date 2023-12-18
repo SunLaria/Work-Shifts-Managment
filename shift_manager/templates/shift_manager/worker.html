@@ -1,6 +1,84 @@
 {% extends "shift_manager/base.html" %}
 {% block content %}
-workers
+<div>
+<table style="display: inline-block;">
+    <tr>
+        <th>Worker ID</th>
+        <th>Full Name</th>
+        <th>Work Days</th>
+    </tr>
+    {% for worker in workers %}
+    <tr id="{{ worker.Worker_ID }}">
+        <td id="worker_id">{{ worker.Worker_ID }}</td>
+        <td id="full_name">{{ worker.Full_Name}}</td>
+        <td id="work_days">{{ worker.Work_Days }}</td>
+        <td><input type="button" value="&#x270E" onclick=prepare_form("{{ worker.Worker_ID }}")>
+            <input type="button" value="&#x1f5d1" onclick=delete_worker({{ worker.Worker_ID }}) >
+            </td>
+    </tr>
+    {% endfor %}
+</table>
+<button style="position: relative; top:3vh; right:6.3vw" onclick=prepare_form()>Add Worker!</button>
+
+    <div id="form-div" style="display: none; border:solid black 2px; padding-right:15px; padding-top:35px; padding-bottom:20px; margin-left:5vw;">
+        <button onclick=hide_form(); style="position: relative; left:21vw;bottom:18vh">X</button>
+    <form id="worker-form" action="{% url 'save_worker'%}" method="post" style="display: inline-block;" >
+        {% csrf_token %}
+        <div>
+            <label for="worker_id">Worker ID:</label>
+            <input type="text" name="worker_id" id="worker_id" required maxlength="5">
+        </div>
+        <div>
+            <label for="full_name">Full Name:</label>
+            <input type="text" name="full_name" id="full_name" required>
+        </div>
+        <div>
+            <label for="work_days">Work Days:</label>
+            <input type="number" name="work_days" id="work_days" min="5" required>    
+        </div>
+        <input type="submit" value="save" style="margin-top: 10px;">
+    </form>
+</div>
+
+</div>
+<script>
 
 
+function delete_worker(worker_id){
+    if (confirm("Are you sure?") == true){
+        window.location.replace("/workers/remove/"+worker_id)
+    };
+}
+
+function hide_form(bool){
+    let form = document.getElementById("form-div")
+    if (bool=="false"){
+        form.style.display="inline-block"
+        
+    }else{
+        form.style.display="none"
+    }
+}
+
+function prepare_form(worker_id=null){
+    if (worker_id==null){
+        let form_inputs = document.getElementById("worker-form").querySelectorAll("input");
+        form_inputs[1].readonly=false
+        for (let i = 0; i < form_inputs.length-2; i++) {
+            form_inputs[i+1].value=""
+        }
+        hide_form("false")
+    }else{
+        let worker_row_data= document.getElementById(worker_id).querySelectorAll("td");
+        let worker_data = Array.from(worker_row_data).map(x => x.innerText);
+        let form_inputs = document.getElementById("worker-form").querySelectorAll("input");
+        form_inputs[1].readonly=true
+        for (let i = 0; i < form_inputs.length-2; i++) {
+            form_inputs[i+1].value=worker_data[i];
+        }
+        hide_form("false");
+    }
+}
+
+</script>
 {% endblock %}
