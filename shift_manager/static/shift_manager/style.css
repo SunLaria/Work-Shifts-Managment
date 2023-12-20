@@ -46,3 +46,8 @@ input{
 select{
     font-size:medium;
 }
+
+#worker_list{
+    position: absolute;
+    left: 10vw;
+}

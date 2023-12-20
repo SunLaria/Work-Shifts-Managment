@@ -17,7 +17,8 @@ def home(request,week_num=datetime.datetime.now().isocalendar()[1]-1):
     return render(request, "shift_manager/index.html", 
                   {"week_dates":dates,
                    "week_num":week_num,
-                   "workers_list":[{"Worker_ID":i.Worker_ID,"Full_Name":i.Full_Name} for i in Worker.objects.all() if len(i.shift_set.filter(Date__gte="-".join(dates[0].split("-")[::-1]), Date__lte="-".join(dates[-1].split("-")[::-1]))) < i.Work_Days]
+                   "workers_list":[{"Worker_ID":i.Worker_ID,"Full_Name":i.Full_Name,"Work_Days_Left":i.Work_Days-len(i.shift_set.filter(Date__gte="-".join(dates[0].split("-")[::-1]), Date__lte="-".join(dates[-1].split("-")[::-1])))} for i in Worker.objects.all()],
+                   "available_workers_list":[{"Worker_ID":i.Worker_ID,"Full_Name":i.Full_Name} for i in Worker.objects.all() if len(i.shift_set.filter(Date__gte="-".join(dates[0].split("-")[::-1]), Date__lte="-".join(dates[-1].split("-")[::-1]))) < i.Work_Days]
                    })
 
 def save(request):
@@ -35,7 +36,8 @@ def save(request):
             except:
                 if data_cell[2]!="empty" and len(Worker.objects.get(Worker_ID=int(data_cell[2])).shift_set.filter(Date__gte=row_data_post[0][0], Date__lte=row_data_post[-1][0])) < Worker.objects.get(Worker_ID=int(data_cell[2])).Work_Days:
                     Shift.objects.create(Date=data_cell[0],Shift=data_cell[1],Worker=Worker.objects.get(Worker_ID=int(data_cell[2])))
-        return redirect("/")
+        return redirect("/",kwargs={"message":"Saved!"})
+    # ask tal or try something else / different function
 
 
 

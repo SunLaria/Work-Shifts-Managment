@@ -23,7 +23,7 @@
                 <select id="Worker_row1" name="Worker">
                     {% filter_worker_name cell_date "mo" %}
                     <option value="empty">------</option>
-                    {% for worker in workers_list %}
+                    {% for worker in available_workers_list %}
                     <option value="{{ worker.Worker_ID }}"> {{ worker.Full_Name }} </option>
                     {% endfor %}
                     <input type="text" name="Shift" id="" value="mo" hidden>
@@ -46,7 +46,7 @@
                 <select id="Worker_row2" name="Worker">
                     {% filter_worker_name cell_date "af" %}
                     <option value="empty">------</option>
-                    {% for worker in workers_list %}
+                    {% for worker in available_workers_list %}
                     <option value="{{ worker.Worker_ID }}"> {{ worker.Full_Name }} </option>
                     {% endfor %}
                     <input type="text" name="Shift" id="" value="af" hidden>
@@ -69,7 +69,7 @@
                 <select id="Worker_row3" name="Worker">
                     {% filter_worker_name cell_date "ni"|safe%}
                     <option value="empty">------</option>
-                    {% for worker in workers_list %}
+                    {% for worker in available_workers_list %}
                     <option value="{{ worker.Worker_ID }}"> {{ worker.Full_Name }} </option>
                     {% endfor %}
                     <input type="text" name="Shift" id="" value="ni" hidden>
@@ -91,6 +91,23 @@
 <div id="action-buttons-div">
 <button style="cursor: pointer; font-size: medium;"  id="clear_all">Clear All!</button>
 <button style="cursor: pointer; font-size: medium;" id="save_all">Save All!</button>
+{{ message }}
+</div>
+<div id="worker_list">
+    <table style="font-size:small;">
+        <tr>
+            <th style="font-size: small;">Worker ID:</th>
+            <th style="font-size: small;">Full Name:</th>
+            <th style="font-size: small;">Available Work Days:</th>
+        </tr>
+        {% for worker in workers_list %}
+        <tr>
+            <td>{{ worker.Worker_ID }}</td>
+            <td>{{ worker.Full_Name }}</td>
+            <td>{{ worker.Work_Days_Left }}</td>
+        </tr>
+        {% endfor %}
+    </table>
 </div>
 <script>
     
