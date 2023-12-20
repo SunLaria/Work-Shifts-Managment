@@ -51,3 +51,25 @@ select{
     position: absolute;
     left: 10vw;
 }
+.action_button{
+    cursor: pointer;
+    font-size: medium;
+}
+#add_worker{
+    position: relative;
+    top:3vh;
+    right:6.3vw"
+}
+#form-div{
+    display: none;
+    border:solid black 2px;
+    padding-right:15px;
+    padding-top:35px;
+    padding-bottom:20px;
+    margin-left:5vw;
+}
+#exit_form{
+    position: relative;
+    left:21vw;
+    bottom:18vh;
+}

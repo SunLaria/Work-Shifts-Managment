@@ -18,10 +18,10 @@
     </tr>
     {% endfor %}
 </table>
-<button style="position: relative; top:3vh; right:6.3vw" onclick=prepare_form()>Add Worker!</button>
+<button id="add_worker" onclick=prepare_form()>Add Worker!</button>
 
-    <div id="form-div" style="display: none; border:solid black 2px; padding-right:15px; padding-top:35px; padding-bottom:20px; margin-left:5vw;">
-        <button onclick=hide_form(); style="position: relative; left:21vw;bottom:18vh">X</button>
+    <div id="form-div">
+        <button id="exit_form" onclick=hide_form();>X</button>
     <form id="worker-form" action="{% url 'save_worker'%}" method="post" style="display: inline-block;" >
         {% csrf_token %}
         <div>
