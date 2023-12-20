@@ -9,11 +9,11 @@ class Worker(models.Model):
     Full_Name = models.CharField(max_length=20)
     Work_Days = models.IntegerField()
     
-    def shift_count(self,start_date,end_date):
-        if len(self.objects.Shift_set.filter().filter(recordDate__gte=start_date, recordDate__lte=end_date)) <= 5:
-            return True
-        else:
-            return False
+    # def shift_count(self,start_date,end_date):
+    #     if len(self.objects.Shift_set.filter().filter(recordDate__gte=start_date, recordDate__lte=end_date)) <= 5:
+    #         return True
+    #     else:
+    #         return False
 
 
 class Shift(models.Model):

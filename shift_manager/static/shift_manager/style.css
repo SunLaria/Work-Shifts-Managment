@@ -45,6 +45,8 @@ input{
 }
 select{
     font-size:medium;
+    text-align: center;
+    width: 6em;
 }
 
 #worker_list{
@@ -58,7 +60,7 @@ select{
 #add_worker{
     position: relative;
     top:3vh;
-    right:6.3vw"
+    right:6.3vw;
 }
 #form-div{
     display: none;
