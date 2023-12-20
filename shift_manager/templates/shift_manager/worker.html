@@ -26,15 +26,15 @@
         {% csrf_token %}
         <div>
             <label for="worker_id">Worker ID:</label>
-            <input type="text" name="worker_id" id="worker_id" required maxlength="5">
+            <input type="text" name="worker_id" id="worker_id" required maxlength="5" inputmode="numeric">
         </div>
         <div>
             <label for="full_name">Full Name:</label>
-            <input type="text" name="full_name" id="full_name" required>
+            <input type="text" name="full_name" id="full_name" required maxlength="20">
         </div>
         <div>
             <label for="work_days">Work Days:</label>
-            <input type="number" name="work_days" id="work_days" min="5" required>    
+            <input type="number" name="work_days" id="work_days" min="5" max="21" maxlength="2" required>    
         </div>
         <input type="submit" value="save" style="margin-top: 10px;">
     </form>
