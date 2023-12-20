@@ -126,3 +126,5 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 FIRST_DAY_OF_WEEK=0
+
+STATICFILES_DIRS=['/shift_manager/static/']

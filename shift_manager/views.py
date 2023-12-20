@@ -33,7 +33,7 @@ def save(request):
                 else:
                     temp_shift.delete()
             except:
-                if data_cell[2]!="empty":
+                if data_cell[2]!="empty" and len(Worker.objects.get(Worker_ID=int(data_cell[2])).shift_set.filter(Date__gte=row_data_post[0][0], Date__lte=row_data_post[-1][0])) < Worker.objects.get(Worker_ID=int(data_cell[2])).Work_Days:
                     Shift.objects.create(Date=data_cell[0],Shift=data_cell[1],Worker=Worker.objects.get(Worker_ID=int(data_cell[2])))
         return redirect("/")
 
