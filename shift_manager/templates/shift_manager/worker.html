@@ -16,6 +16,8 @@
             <input type="button" value="&#x1f5d1" onclick=delete_worker({{ worker.Worker_ID }}) >
             </td>
     </tr>
+    {% empty %}
+    <td align="center" colspan="3">No Workers</td>
     {% endfor %}
 </table>
 <button id="add_worker" onclick=prepare_form()>Add Worker!</button>

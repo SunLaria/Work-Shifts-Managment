@@ -10,23 +10,24 @@
             <br>
             {{ week_dates|list_index:week_day }}
         </th>
-    
         {% endfor %}
     </tr>
+    {% for range in "0 1 2"|list_split %}
+    {% cycle 'mo' 'af' 'ni' as shift silent %}
     <tr>
-        <th>Morning<br>06:00-15:00</th>
-        <form action="{% url 'save' %}" method="post" id="form1">
+        <th>{% cycle 'Morning' 'Afternoon' 'Night' %}<br>{% cycle '06:00-15:00' '15:00-20:00' '20:00-06:00' %}</th>
+        <form action="{% url 'save' %}" method="post">
             {% csrf_token %}
             {% for week_day in "0 1 2 3 4 5 6"|list_split %}
             <td>
                 {% with cell_date=week_dates|list_index_date:week_day %}
-                <select id="Worker_row1" name="Worker">
-                    {% filter_worker_name cell_date "mo" %}
+                <select name="Worker">
+                    {% filter_worker_name cell_date shift %}
                     <option value="empty">------</option>
                     {% for worker in available_workers_list %}
                     <option value="{{ worker.Worker_ID }}"> {{ worker.Full_Name }} </option>
                     {% endfor %}
-                    <input type="text" name="Shift" id="" value="mo" hidden>
+                    <input type="text" name="Shift" id="" value={{ shift }}  hidden>
                     <input type="date" name="Date" id="" value="{{ cell_date }}" hidden>
                 </select>
                 {% endwith %}
@@ -36,52 +37,7 @@
                 <input type="submit" value="&#x1f5d1" formaction="{% url 'delete' %}" id="clear-row"></td>
         </form>
     </tr>
-    <tr>
-        <th>Afternoon<br>15:00-20:00</th>
-        <form action="{% url 'save' %}" method="post" id="form2">
-            {% csrf_token %}
-            {% for week_day in "0 1 2 3 4 5 6"|list_split %}
-            <td>
-                {% with cell_date=week_dates|list_index_date:week_day %}
-                <select id="Worker_row2" name="Worker">
-                    {% filter_worker_name cell_date "af" %}
-                    <option value="empty">------</option>
-                    {% for worker in available_workers_list %}
-                    <option value="{{ worker.Worker_ID }}"> {{ worker.Full_Name }} </option>
-                    {% endfor %}
-                    <input type="text" name="Shift" id="" value="af" hidden>
-                    <input type="date" name="Date" id="" value="{{ cell_date }}" hidden>
-                </select>
-                {% endwith %}
-            </td>
-            {% endfor %}
-            <td><input type="submit" value="&#x2713">
-                <input type="submit" value="&#x1f5d1" formaction="{% url 'delete' %}" id="clear-row"></td>
-        </form>
-    </tr>
-    <tr>
-        <th>Night<br>20:00-06:00</th>
-        <form action="{% url 'save' %}" method="post" id="form3">
-            {% csrf_token %}
-            {% for week_day in "0 1 2 3 4 5 6"|list_split %}
-            <td>
-                {% with cell_date=week_dates|list_index_date:week_day %}
-                <select id="Worker_row3" name="Worker">
-                    {% filter_worker_name cell_date "ni"|safe%}
-                    <option value="empty">------</option>
-                    {% for worker in available_workers_list %}
-                    <option value="{{ worker.Worker_ID }}"> {{ worker.Full_Name }} </option>
-                    {% endfor %}
-                    <input type="text" name="Shift" id="" value="ni" hidden>
-                    <input type="date" name="Date" id="" value="{{ cell_date }}" hidden>
-                </select>
-                {% endwith %}
-            </td>
-            {% endfor %}
-            <td><input type="submit"  value="&#x2713">
-                <input type="submit" value="&#x1f5d1" formaction="{% url 'delete' %}" id="clear-row"></td>
-        </form>
-    </tr>
+    {% endfor %}
 </table>
 <input type="text" hidden id="week_num" value="{{ week_num }}">
 <div id="calender_buttons">
@@ -106,6 +62,8 @@
             <td>{{ worker.Full_Name }}</td>
             <td>{{ worker.Work_Days_Left }}</td>
         </tr>
+        {% empty %}
+        <td align="center" colspan="3">No Workers</td>
         {% endfor %}
     </table>
 </div>
