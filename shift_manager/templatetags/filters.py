@@ -27,8 +27,3 @@ def filter_worker_name(date,shift):
         return mark_safe(result)
     except:
         return ""
-
-
-
-# date(date[2],date[1],date[0]).strftime('%Y-%m-%d')
-# datetime.date(2023,12,14).strftime('%d-%m-%Y')
