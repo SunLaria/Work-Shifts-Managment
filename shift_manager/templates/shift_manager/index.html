@@ -40,14 +40,20 @@
     {% endfor %}
 </table>
 <input type="text" hidden id="week_num" value="{{ week_num }}">
+<input type="text" hidden id="year" value="{{ year }}">
 <div id="calender_buttons">
     <button id="back_button" onclick=button_control(week_num-1)><</button>
     <button id="front_button" onclick=button_control(week_num+1)>></button>
 </div>
 <div id="action-buttons-div">
+<a href="/"><button class="action_button" id="current_week">This Week</button></a>
 <button class="action_button" id="clear_all">Clear All!</button>
 <button class="action_button" id="save_all">Save All!</button>
-{{ message }}
+{% if messages %}
+    {% for message in messages %}
+    {{ message }}
+    {% endfor %}
+{% endif %}
 </div>
 <div id="worker_list">
     <table style="font-size:small;">
@@ -69,9 +75,11 @@
 </div>
 <script>
     
+    
     let week_num = parseInt(document.getElementById("week_num").value)
+    let year = parseInt(document.getElementById("year").value)
     function button_control(value){
-        return window.location.replace("/"+String(value));
+        return window.location.replace("/"+year+"/"+String(value));
     }
 
     
