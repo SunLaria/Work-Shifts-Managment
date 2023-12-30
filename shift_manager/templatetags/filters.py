@@ -25,4 +25,3 @@ def filter_worker_name(date,shift):
         return mark_safe(result)
     except:
         return ""
-

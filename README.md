@@ -1,8 +1,8 @@
 Workers + Shift Manager - Admin Site
 
-create Workers
-applying + removing workers from shifts
-extra action buttons
+Create Workers,
+Applying + removing workers from shifts,
+Extra action buttons and features.
 
 
-build in Djnago with additional stuff learned on the road
+Build in Djnago with the help of JS, jQuery and additional stuff learned on the road
