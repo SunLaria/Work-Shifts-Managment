@@ -8,12 +8,12 @@
         <th>Work Days</th>
     </tr>
     {% for worker in workers %}
-    <tr id="{{ worker.Worker_ID }}">
-        <td id="worker_id">{{ worker.Worker_ID }}</td>
+    <tr id="{{ worker.id }}">
+        <td id="worker_id">{{ worker.id }}</td>
         <td id="full_name">{{ worker.Full_Name}}</td>
         <td id="work_days">{{ worker.Work_Days }}</td>
-        <td><input type="button" value="&#x270E" onclick=prepare_form("{{ worker.Worker_ID }}")>
-            <input type="button" value="&#x1f5d1" onclick=delete_worker({{ worker.Worker_ID }}) >
+        <td><input type="button" value="&#x270E" onclick=prepare_form({{ worker.id }})>
+            <input type="button" value="&#x1f5d1" onclick=delete_worker({{ worker.id }}) >
             </td>
     </tr>
     {% empty %}
@@ -21,19 +21,18 @@
     {% endfor %}
 </table>
 <button id="add_worker" onclick=prepare_form()>Add Worker!</button>
-{% if messages %}
+<span id="message">{% if messages %}
     {% for message in messages %}
     {{ message }}
     {% endfor %}
 {% endif %}
+</span>
+
     <div id="form-div">
         <button id="exit_form" onclick=hide_form();>X</button>
     <form id="worker-form" action="{% url 'save_worker'%}" method="post" style="display: inline-block;" >
         {% csrf_token %}
-        <div>
-            <label for="worker_id">Worker ID:</label>
-            <input type="text" name="worker_id" id="worker_id" required maxlength="5" inputmode="numeric">
-        </div>
+        <input type="text" name="worker_id" id="worker_id" value="" hidden>
         <div>
             <label for="full_name">Full Name:</label>
             <input type="text" name="full_name" id="full_name" required maxlength="20">
@@ -67,10 +66,10 @@ function hide_form(bool){
 }
 
 function prepare_form(worker_id=null){
+    document.getElementById("message").innerHTML="";
     if (worker_id==null){
         let form_inputs = document.getElementById("worker-form").querySelectorAll("input");
-        form_inputs[1].readonly=false
-        for (let i = 0; i < form_inputs.length-2; i++) {
+        for (let i = 1; i < 3; i++) {
             form_inputs[i+1].value=""
         }
         hide_form("false")
@@ -78,8 +77,7 @@ function prepare_form(worker_id=null){
         let worker_row_data= document.getElementById(worker_id).querySelectorAll("td");
         let worker_data = Array.from(worker_row_data).map(x => x.innerText);
         let form_inputs = document.getElementById("worker-form").querySelectorAll("input");
-        form_inputs[1].readonly=true
-        for (let i = 0; i < form_inputs.length-2; i++) {
+        for (let i = 0; i < 3; i++) {
             form_inputs[i+1].value=worker_data[i];
         }
         hide_form("false");

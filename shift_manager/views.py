@@ -29,12 +29,12 @@ def home(request,year=datetime.date.today().year,week_num=datetime.datetime.now(
                   {"week_dates":dates,
                    "week_num":week_num,
                    "year":year,
-                   "workers_list":[{"Worker_ID":i.Worker_ID,"Full_Name":i.Full_Name,"Work_Days_Left":i.Work_Days-len(i.shift_set.filter(Date__gte="-".join(dates[0].split("-")[::-1]), Date__lte="-".join(dates[-1].split("-")[::-1])))} for i in Worker.objects.all()],
-                   "available_workers_list":[{"Worker_ID":i.Worker_ID,"Full_Name":i.Full_Name} for i in Worker.objects.all() if len(i.shift_set.filter(Date__gte="-".join(dates[0].split("-")[::-1]), Date__lte="-".join(dates[-1].split("-")[::-1]))) < i.Work_Days]
+                   "workers_list":[{"id":i.id,"Full_Name":i.Full_Name,"Work_Days_Left":i.Work_Days-len(i.shift_set.filter(Date__gte="-".join(dates[0].split("-")[::-1]), Date__lte="-".join(dates[-1].split("-")[::-1])))} for i in Worker.objects.all()],
+                   "available_workers_list":[{"id":i.id,"Full_Name":i.Full_Name} for i in Worker.objects.all() if len(i.shift_set.filter(Date__gte="-".join(dates[0].split("-")[::-1]), Date__lte="-".join(dates[-1].split("-")[::-1]))) < i.Work_Days]
                    })
 
 def save(request):
-    if request.method=="POST":
+ if request.method=="POST":
         if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
             is_ajax = True
         else:
@@ -44,17 +44,16 @@ def save(request):
             try:
                 temp_shift=Shift.objects.get(Date=data_cell[0],Shift=data_cell[1])
                 if data_cell[2]!='empty':
-                    temp_shift.Worker=Worker.objects.get(Worker_ID=int(data_cell[2]))
+                    temp_shift.Worker=Worker.objects.get(id=int(data_cell[2]))
                     temp_shift.clean_fields()
                     temp_shift.save()
                 else:
                     temp_shift.delete()
             except:
-                if data_cell[2]!="empty" and len(Worker.objects.get(Worker_ID=int(data_cell[2])).shift_set.filter(Date__gte=row_data_post[0][0], Date__lte=row_data_post[-1][0])) < Worker.objects.get(Worker_ID=int(data_cell[2])).Work_Days:
-                    Shift.objects.create(Date=data_cell[0],Shift=data_cell[1],Worker=Worker.objects.get(Worker_ID=int(data_cell[2])))
+                if data_cell[2]!="empty" and len(Worker.objects.get(id=int(data_cell[2])).shift_set.filter(Date__gte=row_data_post[0][0], Date__lte=row_data_post[-1][0])) < Worker.objects.get(id=int(data_cell[2])).Work_Days:
+                    Shift.objects.create(Date=data_cell[0],Shift=data_cell[1],Worker=Worker.objects.get(id=int(data_cell[2])))
         messages.success(request, "Shifts Updated!.")
         return redirect(request.META.get('HTTP_REFERER'))
-
 
 
 def delete(request):
@@ -76,13 +75,13 @@ def workers(request):
 def save_worker(request):
     if request.method=="POST":
         try:
-            worker=Worker.objects.get(Worker_ID=request.POST["worker_id"])
+            worker=Worker.objects.get(id=request.POST["worker_id"])
             worker.Full_Name=request.POST["full_name"]
             worker.Work_Days=request.POST["work_days"]
             worker.clean_fields()
             worker.save()
         except:
-            worker=Worker(Worker_ID=request.POST["worker_id"],Full_Name=request.POST["full_name"],Work_Days=request.POST["work_days"])
+            worker=Worker(Full_Name=request.POST["full_name"],Work_Days=request.POST["work_days"])
             try:
                 worker.clean_fields()
                 worker.save()
@@ -97,7 +96,7 @@ def save_worker(request):
 
 def remove_worker(request,worker_id):
     try:
-        worker=Worker.objects.get(Worker_ID=worker_id)
+        worker=Worker.objects.get(id=worker_id)
         worker.delete()
         messages.success(request, "Worker Removed!.")
         return redirect("workers")

@@ -25,7 +25,7 @@
                     {% filter_worker_name cell_date shift %}
                     <option value="empty">------</option>
                     {% for worker in available_workers_list %}
-                    <option value="{{ worker.Worker_ID }}"> {{ worker.Full_Name }} </option>
+                    <option value="{{ worker.id }}"> {{ worker.Full_Name }} </option>
                     {% endfor %}
                     <input type="text" name="Shift" id="" value={{ shift }}  hidden>
                     <input type="date" name="Date" id="" value="{{ cell_date }}" hidden>
@@ -64,7 +64,7 @@
         </tr>
         {% for worker in workers_list %}
         <tr>
-            <td>{{ worker.Worker_ID }}</td>
+            <td>{{ worker.id }}</td>
             <td>{{ worker.Full_Name }}</td>
             <td>{{ worker.Work_Days_Left }}</td>
         </tr>
