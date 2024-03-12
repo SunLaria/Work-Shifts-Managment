@@ -4,9 +4,9 @@ Workers + Shift Manager - Admin Site
 
 ## How To Use
 
-- Create Workers
+- Manage Workers
 
-- Applying + removing workers from shifts, In A Dynamic Calendar
+- Applying + Removing workers from shifts, In A Dynamic Calendar
 
 - Extra action buttons and many features.
 
