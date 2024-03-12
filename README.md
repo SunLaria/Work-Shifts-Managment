@@ -13,7 +13,7 @@ Workers + Shift Manager - Admin Site
 ## How to Setup:
 Docker:
 ```
-docker run -p 8000:8000 docker.io/randomg1/work-shifts-managment:1
+docker run -p 8000:8000 docker.io/randomg1/work-shifts-managment:2
 ```
 
 Locally:
