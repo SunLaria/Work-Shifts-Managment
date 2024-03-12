@@ -1,10 +1,34 @@
-# Workers + Shift Manager
+# Workers + Shift Admin Manager
 
 Workers + Shift Manager - Admin Site
 
-Create Workers,
-Applying + removing workers from shifts,
-Extra action buttons and features.
+## How To Use
+
+- Create Workers
+
+- Applying + removing workers from shifts, In A Dynamic Calendar
+
+- Extra action buttons and many features.
+
+## How to Setup:
+Docker:
+```
+docker run -p 8000:8000 docker.io/randomg1/work-shifts-managment:1
+```
+
+Locally:
+```
+git clone https://github.com/SunLaria/Work-Shifts-Managment.git
+cd Work-Shifts-Managment
+python -m pip install -r requirements.txt
+python ./manage.py runserver
+```
+
+## How To Run:
+Navigate to http://localhost:8000/ or http://127.0.0.1:8000/
 
 
-Build in Djnago with the help of JS, jQuery and additional stuff learned on the road
+## Additional Information
+
+- This Project Is Written in Python, HTML, Jinja, CSS in Djnago FrameWork.
+- Build in Djnago with the help of JS, jQuery and additional stuff learned on the road.
